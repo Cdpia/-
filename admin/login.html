@@ -38,6 +38,75 @@
     </div>
   </div>
 
+
+  <!-- 使用bootstrap中的模态框来对用户做提示 -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+        </div>
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./libs/http.js"></script>
+  <script>
+
+    $(function () {
+      // 给登录按钮添加点击事件
+      $('.input_sub').on('click', function (e) {
+        // 阻止提交按钮的默认跳转事件
+        e.preventDefault();
+        // 获取账号密码去除首尾空格
+        var unseName = $('.input_txt').val().trim();
+        var unsePwd = $('.input_pass').val().trim();
+        // 非空判断
+        if (unseName == '' || unsePwd == '') {
+          $('.modal-body').text('请输入账号密码');
+          $('#myModal').modal();
+          return;
+        };
+
+        // Ajax请求
+        $.post({
+          // 获取地址
+          url: window.BigNew.user_login,
+          // 获取账号密码
+          data: {
+            username: unseName,
+            password: unsePwd
+          },
+          success: function (rew) {
+            // console.log(rew);
+            // 模态框弹窗信息
+            $('.modal-body').text(rew.msg);
+            $('#myModal').modal();
+
+            if (rew.code == 200) {
+              // 模态框按钮点击确认后跳转
+              $('#myModal').on('hidden.bs.modal', function (e) {
+                // 跳转页面
+                window.location.href = './index.html';
+              })
+            }
+
+          }
+        })
+
+      });
+    })
+
+  </script>
 </body>
 
 </html>
