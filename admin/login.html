@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8" />
@@ -93,6 +93,7 @@
             $('#myModal').modal();
 
             if (rew.code == 200) {
+              localStorage.setItem('token', rew.token)
               // 模态框按钮点击确认后跳转
               $('#myModal').on('hidden.bs.modal', function (e) {
                 // 跳转页面
