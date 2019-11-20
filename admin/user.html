@@ -85,11 +85,65 @@
                         for (var key in res.data) {
                             $('input.' + key).val(res.data[key])
                         }
-                        $('.user_pic').attr('src',res.data.userPic)
+                        $('.user_pic').attr('src', res.data.userPic)
                     }
 
                 }
             })
+            // 上传图片渲染页面
+            $('#exampleInputFile').change(function () {
+                var imgIcon = this.files[0];
+                var url = URL.createObjectURL(imgIcon)
+                // console.log(url);
+                $('.user_pic').attr('src', url)
+            })
+
+            // 给修改按钮添加点击事件
+            $('button.btn-edit').click(function (e) {
+                // 阻止提交的默认刷新
+                e.preventDefault();
+                // 获取表单信息
+                //获取form表单
+                var form = $('#form')[0]
+                var neserData = new FormData(form);
+                // 发送Ajax请求
+                $.post({
+                    url: BigNew.user_edit,
+                    data: neserData,
+                    // 二进制不需要请求类型
+                    contentType: false,
+                    //不需要编码
+                    processData: false,
+                    success: function (res) {
+                        // console.log(res);
+
+                        if (res.code == 200) {
+                            // window.location.reload()
+                            // parent.window.location.reload()
+                            $.get({
+                                url: window.BigNew.user_info,
+                                // 请求头 获取token(令牌)
+                                // headers: {
+                                //     Authorization: localStorage.getItem('token')
+                                // },
+                                success: function (rew) {
+                                    // 父页面刷新(左侧与上侧的页面)
+                                    //parent获取父页面的元素
+                                    parent.$('.user_info > img').attr('src', rew.data.userPic)
+                                    parent.$('.user_info > span').html('欢迎&nbsp;&nbsp;' + rew.data.nickname)
+                                    parent.$('.user_center_link > img').attr('src', rew.data.userPic)
+                                    // 子页面刷新
+                                    window.location.reload()
+                                }
+                            })
+                        }
+
+                    }
+                })
+            })
+
+
+
         })
 
     </script>
