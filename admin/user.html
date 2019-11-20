@@ -134,6 +134,9 @@
                                     parent.$('.user_center_link > img').attr('src', rew.data.userPic)
                                     // 子页面刷新
                                     window.location.reload()
+                                    alert('请从新登录')
+                                    localStorage.removeItem('token')
+                                    parent.window.location.href = './login.html'
                                 }
                             })
                         }
