@@ -93,6 +93,7 @@
                 if ($(this).next().hasClass('level02')) {
                     $(this).next().slideToggle();
                     $(this).find('b').toggleClass('rotate0')
+                    // 点击列表第一个元素
                     $('.level02>li>a').first()[0].click();
                 } else {
                     $('.level02>li').removeClass('active');
