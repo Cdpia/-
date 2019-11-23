@@ -198,7 +198,6 @@
                     }
                 })
             })
-
             //删除
             $('tbody').on('click', '.delete', function () {
 
@@ -221,10 +220,13 @@
                                         perpage: perpage
                                     },
                                     success: function (res) {
-                                        // console.log(res);
                                         if (res.code == 200) {
                                             var htmlStr = template('art-list', res)
                                             $('tbody').html(htmlStr)
+                                            onPageClick = function (event, page) {
+                                                $('#pagination-demo').twbsPagination('changeTotalPages', res.data.totalPage, page)
+                                            }
+
                                         }
                                     }
                                 })
